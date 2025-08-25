@@ -43,16 +43,19 @@ VOLUME /home/$USERNAME/workspace
 COPY --chown=$USERNAME:$USERNAME docker/dotfiles/.bashrc /home/$USERNAME/.bashrc
 COPY --chown=$USERNAME:$USERNAME docker/dotfiles/.dircolors /home/$USERNAME/.dircolors
 
+##### Java is necessary to run ANTLR4 and its associated toolset
+
 # Get SDKMAN set up
 RUN curl -s "https://get.sdkman.io" | bash \
     && bash -c "source /home/$USERNAME/.sdkman/bin/sdkman-init.sh && sdk update"
 ENV SDKMAN_DIR="/home/$USERNAME/.sdkman"
 ENV PATH="$SDKMAN_DIR/bin:$PATH"
 
-# Install OpenJDK 17, Gradle 8.14
-RUN bash -c "source /home/$USERNAME/.sdkman/bin/sdkman-init.sh && sdk install java 17-open && sdk install gradle 8.14"
+# Install OpenJDK 17
+RUN bash -c "source /home/$USERNAME/.sdkman/bin/sdkman-init.sh && sdk install java 17-open"
 ENV JAVA_HOME="/home/$USERNAME/.sdkman/candidates/java/current"
-ENV GRADLE_HOME="/home/$USERNAME/.sdkman/candidates/gradle/current"
-ENV PATH="$JAVA_HOME/bin:$GRADLE_HOME/bin:$PATH"
+ENV PATH="$JAVA_HOME/bin:$PATH"
+
+##### 
 
 CMD ["/bin/bash"]
