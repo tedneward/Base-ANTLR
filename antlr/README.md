@@ -3,14 +3,36 @@ ANTLR supports a number of different targets. See [Github](https://github.com/an
 
 There are many examples of grammars in the [grammars-v4 Github repository](https://github.com/antlr/grammars-v4).
 
-To create a non-Java target, do like so:
+## Scripts
+The `build.sh` script compiles the grammar into Java classes into `code` for tool usage; ANTLR supporting tools really need the Java-compiled binaries to run. `clean.sh` deletes the compiled code, and `test.sh` operates on one or all of the files in the `examples` directory, which contains examples of the grammar specifically for parser-testing purposes.
+
+The `g4` file is, of course, the grammar itself. Make sure the grammar name matches the filename (ANTLR quirk). If you change the grammar away from LOLCODE (very likely), you'll need to change the settings in a couple of other places:
+
+* jvm/settings.gradle.kts: Change the name of the project
+* jvm/lib/build.gradle.kts: Change the package name of the generated parser code, and the g4 file name in the copyGrammarSource task.
+
+There's probably others, and more will join the list as I add exemplar target projects (C#, C++, Python, JS) here.
+
+## Targets
+This directory contains a number of target-platform--parser compilation projects.
+
+* jvm: Creates a language parser for JVM targets (Java, Kotlin, etc)
+
+Others will be added (C#, C++, Python, JS).
+
+Using ANTLR directly: To create a non-Java target, do like so:
+
 ```
 $ antlr4 -Dlanguage=TARGET MyGrammar.g4
 ```
 
-where *TARGET* is one of `Cpp`, `JavaScript`, `Dart`, `TypeScript`, `Go`, 
+where *TARGET* is given in the headers below.
 
 ## Java
+
+### Gradle
+
+[AntlrTask](https://docs.gradle.org/current/dsl/org.gradle.api.plugins.antlr.AntlrTask.html) and [Antlr Plugin](https://docs.gradle.org/current/userguide/antlr_plugin.html).
 
 ### Intellij
 
@@ -23,9 +45,6 @@ Edgar Espina has created an [eclipse plugin for ANTLR v4](https://marketplace.ec
 ### NetBeans
 
 Sam Harwell's [ANTLRWorks2](http://tunnelvisionlabs.com/products/demo/antlrworks) works also as a plug-in, not just a stand-alone tool built on top of NetBeans.
-
-### Gradle
-
 
 ## C# `-Dlanguage=CSharp`
 You will find full instructions on the [Git repo page for ANTLR C# runtime](https://github.com/antlr/antlr4/tree/master/runtime/CSharp).
