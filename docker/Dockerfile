@@ -45,11 +45,14 @@ COPY --chown=$USERNAME:$USERNAME docker/dotfiles/.dircolors /home/$USERNAME/.dir
 
 # Get SDKMAN set up
 RUN curl -s "https://get.sdkman.io" | bash \
-    && bash -c "source /home/$USERNAME/.sdkman/bin/sdkman-init.sh && sdk version"
+    && bash -c "source /home/$USERNAME/.sdkman/bin/sdkman-init.sh && sdk update"
 ENV SDKMAN_DIR="/home/$USERNAME/.sdkman"
 ENV PATH="$SDKMAN_DIR/bin:$PATH"
 
-# Install OpenJDK 21
-RUN bash -c "source /home/$USERNAME/.sdkman/bin/sdkman-init.sh && sdk install java 21.0.7-tem"
+# Install OpenJDK 17, Gradle 8.14
+RUN bash -c "source /home/$USERNAME/.sdkman/bin/sdkman-init.sh && sdk install java 17-open && sdk install gradle 8.14"
+ENV JAVA_HOME="/home/$USERNAME/.sdkman/candidates/java/current"
+ENV GRADLE_HOME="/home/$USERNAME/.sdkman/candidates/gradle/current"
+ENV PATH="$JAVA_HOME/bin:$GRADLE_HOME/bin:$PATH"
 
 CMD ["/bin/bash"]
