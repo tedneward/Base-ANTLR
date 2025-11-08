@@ -18,3 +18,5 @@ The `antlr` directory has a copy of the ANTLR 4.13.2 JAR file. This contains the
 
 See the antlr/README.md for details on ANTLR usage.
 
+## Grammars
+The `grammars` directory contains a set of starting-point grammars for experimentation/use.
